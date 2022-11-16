@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../src/style.css";
 import Axios from "axios";
-import { formser, serializeToJSON } from "./formser";
+import formser from "./formser";
 class Register extends Component {
   state = { data: [{}], code: "" };
   // post資料到server
@@ -10,8 +10,13 @@ class Register extends Component {
     let code = document.getElementById("codeVal");
     // 把使用者輸入的資料序列化再傳到data裡
     this.state.data = Array(formser("form"));
+    console.log(this.state.data);
     // 判斷使用者有沒有輸入正確資料
-    if (form.reportValidity() && code.value == this.state.code) {
+    if (form.reportValidity()) {
+      //   // if (code.value != this.state.code) {
+      //   //   alert("驗證碼錯誤");
+      //   //   return;
+      //   // }
       const config = {
         headers: { "Content-Type": "application/json" },
       };
@@ -20,18 +25,20 @@ class Register extends Component {
         this.state.data,
         config
       );
+      if (result.data == "帳號重複") {
+        //result.data是後端send回來的資料
+        alert("帳號重複");
+        return;
+      }
       alert("成功");
       window.location = "/";
     } else {
       alert("失敗");
     }
-
-    console.log(this.state.data);
   };
   // 寄送驗證碼
   emailjs = async () => {
     this.state.code = "";
-    console.log(document.getElementById("uid").value);
     const config = {
       headers: { "Content-Type": "application/json" },
     };

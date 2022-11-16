@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Nav from "./nav";
 import Main from "./main.js";
 import Register from "./register";
+import MemberInfo from "./memberInfo";
 function App() {
   return (
     <>
@@ -12,6 +13,7 @@ function App() {
         <Switch>
           <Route path="/" component={Main} exact></Route>
           <Route path="/register" component={Register} exact></Route>
+          <Route path="/memberinfo" component={MemberInfo} exact></Route>
         </Switch>
       </BrowserRouter>
     </>

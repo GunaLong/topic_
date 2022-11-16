@@ -1,4 +1,3 @@
-import { Alert } from "bootstrap";
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import "../src/style.css";
@@ -24,26 +23,23 @@ class Main extends Component {
   }
   //登入判斷
   login = async () => {
+    Axios.defaults.withCredentials = true;
+    // axios預設不能從後端設定cookie要改預設值才可以
     console.log(document.getElementById("form"));
     if (document.getElementById("form").reportValidity()) {
-      let userId = document.getElementById("userId");
-      let userPassword = document.getElementById("userPassword");
-      let result = await Axios.get("http://localhost:4000/");
-      this.state.data = result.data;
-      let isflag = false;
-      this.state.data.forEach((val, i) => {
-        if (userId.value == val.mail && userPassword.value == val.password) {
-          isflag = true;
-        }
-      });
-      if (isflag) {
-        window.location = "/register";
-        alert("登入成功");
-      } else {
-        alert("帳號密碼輸入錯誤");
-      }
-    } else {
-      alert("請輸入帳號密碼");
+      let data = {
+        email: document.getElementById("userId").value,
+        password: document.getElementById("userPassword").value,
+      };
+      console.log(data);
+      Axios.post("http://localhost:4000/login", data)
+        .then((result) => {
+          console.log(result);
+          alert(result.data.message);
+        })
+        .catch((err) => {
+          alert("帳號密碼錯誤");
+        });
     }
   };
   render() {

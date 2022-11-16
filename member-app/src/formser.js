@@ -40,4 +40,4 @@ function serializeToJSON(data) {
   return JSON.stringify(values);
   //     回傳迴圈跑完的值轉成JSON字串
 }
-export { formser, serializeToJSON };
+export default formser;
