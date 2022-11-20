@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import "../src/style.css";
+import "./style.css";
 import Axios from "axios";
 import formser from "./formser";
+import { NavLink } from "react-router-dom";
 class Register extends Component {
   state = { data: [{}], code: "" };
   // post資料到server
@@ -13,10 +14,10 @@ class Register extends Component {
     console.log(this.state.data);
     // 判斷使用者有沒有輸入正確資料
     if (form.reportValidity()) {
-      //   // if (code.value != this.state.code) {
-      //   //   alert("驗證碼錯誤");
-      //   //   return;
-      //   // }
+      if (code.value !== this.state.code) {
+        alert("驗證碼錯誤");
+        return;
+      }
       const config = {
         headers: { "Content-Type": "application/json" },
       };
@@ -25,7 +26,7 @@ class Register extends Component {
         this.state.data,
         config
       );
-      if (result.data == "帳號重複") {
+      if (result.data === "帳號重複") {
         //result.data是後端send回來的資料
         alert("帳號重複");
         return;
@@ -96,7 +97,7 @@ class Register extends Component {
       },
     };
 
-    let result = await Axios.post(
+    await Axios.post(
       "https://api.emailjs.com/api/v1.0/email/send",
       JSON.stringify(data),
       config
@@ -105,7 +106,7 @@ class Register extends Component {
         alert("成功");
       })
       .catch(() => {
-        alert("失敗");
+        alert("請輸入信箱");
       });
     document.getElementById("code").innerHTML = "重新發送驗證碼";
     return false;
@@ -118,19 +119,17 @@ class Register extends Component {
           <h1>註冊</h1>
         </div>
         <div className="main">
-          <div className="container">
-            <div className="row">
-              <div className="col-5 h1 text-end d-lg-block d-none  ">
-                <br />
-                <br />
-                <div className="border-end p-3">
+          <div className="container h-100">
+            <div className="row h-100 ">
+              <div className="col-12 col-lg-5  text-lg-end  d-flex justify-content-lg-end justify-content-center  ">
+                <div className="d-flex align-items-center p-lg-3">
                   <span style={{ fontSize: "72px", color: "white" }}>註冊</span>
-                  <br />
                   <span style={{ fontSize: "72px", color: "white" }}>資料</span>
+                  <div className="border-end h-50 ms-5 d-none d-lg-block  "></div>
                 </div>
               </div>
               <div
-                className="col-12 col-lg-7 text-center text-lg-start "
+                className="col-12 col-lg-7  text-center text-lg-start  d-flex justify-content-lg-start justify-content-center align-items-center"
                 style={{ color: "white" }}
               >
                 <br />
@@ -140,7 +139,7 @@ class Register extends Component {
                     id="uid"
                     name="email"
                     type="text"
-                    className="border border-3 rounded-2 m-2"
+                    className=" rounded-2 m-2"
                     placeholder="請輸入信箱"
                     required
                   ></input>
@@ -149,7 +148,7 @@ class Register extends Component {
                   <input
                     name="password"
                     type="password"
-                    className="border border-3 rounded-2 m-2"
+                    className=" rounded-2 m-2"
                     required
                   ></input>
                   <br />
@@ -157,7 +156,7 @@ class Register extends Component {
                   <input
                     name="account"
                     type="tel"
-                    className="border border-3 rounded-2 m-2"
+                    className=" rounded-2 m-2"
                     required
                   ></input>
                   <br />
@@ -165,7 +164,7 @@ class Register extends Component {
                   <input
                     name="nickname"
                     type="text"
-                    className="border border-3 rounded-2 m-2"
+                    className=" rounded-2 m-2"
                     required
                   ></input>
                   <br />
@@ -173,7 +172,7 @@ class Register extends Component {
                   <input
                     name="address"
                     type="text"
-                    className="border border-3 rounded-2 m-2"
+                    className=" rounded-2 m-2"
                     required
                   ></input>
                   <br />
@@ -181,7 +180,7 @@ class Register extends Component {
                   <input
                     name="birthday"
                     type="date"
-                    className="border border-3 rounded-2 m-2 ps-5 pe-1 "
+                    className=" rounded-2 m-2 ps-5 pe-3 "
                     required
                   ></input>
                   <br />
@@ -189,24 +188,25 @@ class Register extends Component {
                   <input
                     type="tel"
                     id="codeVal"
-                    className="border border-3 rounded-2 m-2 w-25"
-                    placeholder="請輸入信箱驗證碼"
+                    className=" rounded-2 m-2  w-25"
                     required
                   ></input>
-                  <a
+                  <button
                     id="code"
                     className="btn btn-outline-success"
                     onClick={this.emailjs}
                   >
                     發送驗證碼
-                  </a>
+                  </button>
                 </form>
               </div>
             </div>
           </div>
         </div>
         <div className="d-flex justify-content-center mt-2">
-          <button className="btn btn-success me-5 ">上一步</button>
+          <NavLink to="/" className="btn btn-success me-5 ">
+            上一步
+          </NavLink>
           <button className="btn btn-success ms-5" onClick={this.register}>
             下一步
           </button>

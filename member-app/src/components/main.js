@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import "../src/style.css";
+import "./style.css";
 import Axios from "axios";
 
 class Main extends Component {
@@ -36,6 +36,9 @@ class Main extends Component {
         .then((result) => {
           console.log(result);
           alert(result.data.message);
+          document.getElementById("userId").value = "";
+          document.getElementById("userPassword").value = "";
+          window.location = "/memberinfo";
         })
         .catch((err) => {
           alert("帳號密碼錯誤");
@@ -45,16 +48,16 @@ class Main extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-12 col-lg-5 d-flex align-middle  clo">
-          <div className="m-auto">
-            <div class="login-form">
+        <div className="col-12  d-flex align-middle  clo">
+          <div className="m-auto bg-dark p-5">
+            <div class="login-form ">
               <form id="form">
                 <div className="login-info">
                   <input
                     type="text"
                     className="border border-3 rounded-2"
                     id="userId"
-                    onClick={this.userClick}
+                    onFocus={this.userClick}
                     required
                   ></input>
                   <label
@@ -65,7 +68,7 @@ class Main extends Component {
                       left: 0,
                       padding: "10px 10px",
                       fontSize: "16px",
-                      color: "rgb(15, 20, 25)",
+                      color: "rgb(162, 159, 159)",
                       pointerEvents: "none",
                       transition: "0.5s",
                     }}
@@ -79,7 +82,7 @@ class Main extends Component {
                     type="text"
                     className="border border-3 rounded-2"
                     id="userPassword"
-                    onClick={this.userPassword}
+                    onFocus={this.userPassword}
                     required
                   ></input>
                   <label
@@ -89,7 +92,7 @@ class Main extends Component {
                       left: 0,
                       padding: "10px 10px",
                       fontSize: "16px",
-                      color: "rgb(15, 20, 25)",
+                      color: "rgb(162, 159, 159)",
                       pointerEvents: "none",
                       transition: "0.5s",
                     }}
@@ -103,7 +106,7 @@ class Main extends Component {
                 <NavLink to="/register" className="link">
                   註冊
                 </NavLink>
-                <a href="#" className="link">
+                <a href="#123" className="link">
                   忘記密碼
                 </a>
               </div>

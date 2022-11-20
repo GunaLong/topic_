@@ -6,9 +6,13 @@ const cookieParser = require("cookie-parser");
 //    抓前端cookie要的套件
 const bcrypt = require("bcrypt");
 //          解碼jwt套件
+const multer = require("multer");
+const fs = require("fs");
+
 const app = express();
 app.listen(4000);
 console.log("端口4000執行中");
+app.use(express.static(__dirname + "/public"));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -21,6 +25,18 @@ app.use(
   })
   // 要設定網域才有辦法設定cookie
 );
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/upload");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({
+  storage: storage,
+});
+
 const mysql = require("mysql");
 const conn = mysql.createConnection({
   user: "root",
@@ -64,20 +80,10 @@ const login = (data) => {
   });
 };
 // 登入驗證函式end
-app.post("/memberinfo", (req, res) => {
-  console.log(req.body);
-  conn.query(
-    "SELECT * FROM `member` where token=?",
-    [req.body.cookie],
-    (err, rows) => {
-      console.log(rows);
-    }
-  );
-});
+
 //登入路由
 app.post("/login", async (req, res) => {
   const data = req.body;
-  console.log(data);
   res.header("Access-Control-Allow-Credentials", "true");
   login(data).then((result) => {
     conn.query("UPDATE member set token=? WHERE mail=?", [
@@ -121,4 +127,26 @@ app.post("/register", async (req, res) => {
       res.send("帳號重複");
     }
   });
+});
+
+// 會員資訊頁
+app.post("/memberinfo", (req, res) => {
+  conn.query(
+    "SELECT * FROM `member` where token=?",
+    [req.body.cookie],
+    (err, rows) => {
+      res.send(rows);
+    }
+  );
+});
+
+app.post("/upload_file:cookie", upload.single("myfile"), (req, res) => {
+  console.log(req.file);
+  req.file.path = `upload/${req.file.originalname}`;
+  console.log(req.file.path);
+  conn.query("UPDATE member set memberPhoto=? WHERE token=?", [
+    req.file.path,
+    req.params.cookie,
+  ]);
+  res.send("上傳成功");
 });

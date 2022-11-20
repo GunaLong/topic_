@@ -1,0 +1,78 @@
+* {
+  padding: 0;
+  margin: 0;
+  color: rgb(252, 252, 252);
+}
+/* 登入頁 */
+.clo {
+  height: 100vh;
+  background-image: url("https://cdn.discordapp.com/attachments/1029313785917349900/1042729779465551943/LoginBg_02.png");
+  background-repeat: no-repeat;
+  object-fit: fill;
+  background-size: cover;
+  position: relative;
+}
+
+.main {
+  background-color: rgba(3, 64, 98, 0.6);
+  height: 70vh;
+}
+.link {
+  text-decoration: none;
+  color: lightgrey;
+}
+.link:hover {
+  color: rgb(156, 152, 152);
+}
+.m-auto input {
+  padding: 5px 0px;
+}
+
+.login-form .login-info {
+  position: relative;
+}
+.login-form .login-info input {
+  width: 100%;
+  padding: 10px 10px;
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+  margin-bottom: 30px;
+  border: 1px solid #000;
+  outline: none;
+  background: transparent;
+}
+#form input {
+  padding: 5px;
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+  margin-bottom: 30px;
+  border: 3px solid rgb(240, 237, 237);
+  outline: none;
+  background: transparent;
+}
+#form input:focus {
+  border-color: rgb(92, 177, 206);
+  transition: border 2s;
+}
+
+/* 會員資訊頁 */
+.info {
+  padding: 20px;
+}
+.info:hover {
+  cursor: pointer;
+  box-shadow: 5px 5px 15px 5px #01030e;
+}
+dd {
+  background-color: rgb(3, 64, 98);
+}
+
+.imgRadius {
+  border-radius: 50%;
+  overflow: clip;
+
+  border: 1px solid red;
+}
+img {
+  object-fit: cover;
+}

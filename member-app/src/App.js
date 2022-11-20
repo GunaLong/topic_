@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Nav from "./nav";
-import Main from "./main.js";
-import Register from "./register";
-import MemberInfo from "./memberInfo";
+import "bootstrap/dist/js/bootstrap.bundle";
+import Nav from "./components/nav";
+import Main from "./components/main.js";
+import Register from "./components/register";
+import MemberInfo from "./components/memberInfo";
 function App() {
   return (
     <>
