@@ -32,7 +32,7 @@ class Main extends Component {
         password: document.getElementById("userPassword").value,
       };
       console.log(data);
-      Axios.post("http://localhost:4000/login", data)
+      Axios.post("http://localhost:4000/member/login", data)
         .then((result) => {
           console.log(result);
           alert(result.data.message);
@@ -48,7 +48,7 @@ class Main extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-12  d-flex align-middle  clo">
+        <div className="col-12  d-flex  clo">
           <div className="m-auto bg-dark p-5">
             <div class="login-form ">
               <form id="form">

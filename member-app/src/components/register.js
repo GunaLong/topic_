@@ -11,9 +11,9 @@ class Register extends Component {
     let code = document.getElementById("codeVal");
     // 把使用者輸入的資料序列化再傳到data裡
     this.state.data = Array(formser("form"));
-    console.log(this.state.data);
-    // 判斷使用者有沒有輸入正確資料
+
     if (form.reportValidity()) {
+      // 判斷使用者有沒有輸入正確資料
       if (code.value !== this.state.code) {
         alert("驗證碼錯誤");
         return;
@@ -22,7 +22,7 @@ class Register extends Component {
         headers: { "Content-Type": "application/json" },
       };
       let result = await Axios.post(
-        "http://localhost:4000/register",
+        "http://localhost:4000/member/register",
         this.state.data,
         config
       );
@@ -34,7 +34,7 @@ class Register extends Component {
       alert("成功");
       window.location = "/";
     } else {
-      alert("失敗");
+      alert("請輸入完整資料");
     }
   };
   // 寄送驗證碼

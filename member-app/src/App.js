@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import Nav from "./components/nav";
@@ -11,11 +11,11 @@ function App() {
     <>
       <BrowserRouter>
         <Nav />
-        <Switch>
-          <Route path="/" component={Main} exact></Route>
-          <Route path="/register" component={Register} exact></Route>
-          <Route path="/memberinfo" component={MemberInfo} exact></Route>
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Main />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+          <Route path="/memberinfo/*" element={<MemberInfo />}></Route>
+        </Routes>
       </BrowserRouter>
     </>
   );
