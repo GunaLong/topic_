@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import formser from "../formser";
+import authHeader from "../authHeader";
 class MemberEdit extends Component {
   state = {};
   // 更新資料
@@ -11,15 +12,12 @@ class MemberEdit extends Component {
       const formData = new FormData();
       formData.append("myfile", file);
       await axios
-        .post(
-          `http://localhost:4000/member/upload_file${document.cookie.slice(6)}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
+        .post(`http://localhost:4000/member/upload_file`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
         .then((res) => {
           document.getElementById("labText").style.display = "block";
           document.getElementById("myfile").value = "";
@@ -33,10 +31,9 @@ class MemberEdit extends Component {
     let form = document.getElementById("form");
     if (form.reportValidity()) {
       await axios
-        .put(
-          `http://localhost:4000/member/upload_data${document.cookie.slice(6)}`,
-          data
-        )
+        .put(`http://localhost:4000/member/upload_data`, data, {
+          headers: authHeader(),
+        })
         .then((res) => {
           console.log(res);
           alert("更新成功");

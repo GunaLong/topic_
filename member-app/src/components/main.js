@@ -2,47 +2,46 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import "./style.css";
 import Axios from "axios";
-
+import swal from "sweetalert";
+import formser from "./formser";
 class Main extends Component {
   state = {
     data: [],
   };
   userClick() {
-    let labelstyle = document.querySelector(".userId");
-    labelstyle.style.top = "-35px";
-    labelstyle.style.left = "-10px";
-    labelstyle.style.color = "rgb(181, 196, 206)";
-    labelstyle.style.fontSize = "12px";
+    let labelstyle = document.querySelector(".userId").style;
+    labelstyle.top = "-35px";
+    labelstyle.left = "-10px";
+    labelstyle.color = "rgb(181, 196, 206)";
+    labelstyle.fontSize = "12px";
   }
   userPassword() {
-    let labelstyle1 = document.querySelector(".userPassword");
-    labelstyle1.style.top = "-35px";
-    labelstyle1.style.left = "-10px";
-    labelstyle1.style.color = "rgb(181, 196, 206)";
-    labelstyle1.style.fontSize = "12px";
+    let labelstyle1 = document.querySelector(".userPassword").style;
+    labelstyle1.top = "-35px";
+    labelstyle1.left = "-10px";
+    labelstyle1.color = "rgb(181, 196, 206)";
+    labelstyle1.fontSize = "12px";
   }
   //登入判斷
   login = async () => {
-    Axios.defaults.withCredentials = true;
-    // axios預設不能從後端設定cookie要改預設值才可以
-    console.log(document.getElementById("form"));
     if (document.getElementById("form").reportValidity()) {
-      let data = {
-        email: document.getElementById("userId").value,
-        password: document.getElementById("userPassword").value,
-      };
-      console.log(data);
-      Axios.post("http://localhost:4000/member/login", data)
-        .then((result) => {
-          console.log(result);
-          alert(result.data.message);
+      let result = await Axios.post(
+        "http://localhost:4000/member/login",
+        formser("form")
+      );
+
+      if (result) {
+        if (result.data === "帳號錯誤" || result.data === "密碼錯誤") {
+          let flag = swal("帳號密碼錯誤", "", "error", {
+            buttons: "確定",
+          });
+        } else {
+          localStorage.setItem("token", result.data.token);
           document.getElementById("userId").value = "";
           document.getElementById("userPassword").value = "";
           window.location = "/memberinfo";
-        })
-        .catch((err) => {
-          alert("帳號密碼錯誤");
-        });
+        }
+      }
     }
   };
   render() {
@@ -54,9 +53,10 @@ class Main extends Component {
               <form id="form">
                 <div className="login-info">
                   <input
-                    type="text"
+                    type="email"
                     className="border border-3 rounded-2"
                     id="userId"
+                    name="email"
                     onFocus={this.userClick}
                     required
                   ></input>
@@ -79,9 +79,10 @@ class Main extends Component {
 
                 <div className="login-info">
                   <input
-                    type="text"
+                    type="password"
                     className="border border-3 rounded-2"
                     id="userPassword"
+                    name="password"
                     onFocus={this.userPassword}
                     required
                   ></input>

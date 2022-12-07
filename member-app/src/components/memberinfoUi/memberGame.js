@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
+import authHeader from "../authHeader";
 class Game extends Component {
   state = { data: [{}] };
   async componentDidMount() {
-    let result = await axios.get(
-      `http://localhost:4000/member/game${document.cookie.slice(6)}`
-    );
+    let result = await axios.get(`http://localhost:4000/member/game`, {
+      headers: authHeader(),
+    });
     this.state.data = result.data;
     this.setState({});
   }

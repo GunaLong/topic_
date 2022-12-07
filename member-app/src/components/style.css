@@ -6,6 +6,7 @@
 /* 登入頁 */
 .clo {
   height: 100vh;
+  width: 100%;
   background-image: url("https://cdn.discordapp.com/attachments/1029313785917349900/1045168850418794516/LoginBG_02.png");
   background-repeat: no-repeat;
   background-size: cover;

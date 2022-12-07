@@ -1,0 +1,89 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+ul {
+  list-style: none;
+  width: 280px;
+}
+li:hover {
+  background-color: rgb(196, 202, 202);
+  cursor: pointer;
+  border-radius: 10px;
+}
+.linkText {
+  text-decoration: none;
+  color: #000;
+}
+.linkText:hover {
+  color: #000;
+}
+input {
+  border: none;
+
+  appearance: none;
+}
+input:focus {
+  outline: none;
+}
+#imgBox {
+  border: solid 1px rgb(116, 116, 116);
+  padding: 10px;
+  margin: 20px;
+  border-radius: 5px;
+}
+.imgLabel {
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  color: rgb(174, 172, 172);
+  border-radius: 5px;
+}
+.imgStyle {
+  width: 150px;
+  height: 150px;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+.textSpan::after {
+  content: "⨯";
+  margin-left: 4px;
+  cursor: pointer;
+}
+.textSpan1::after {
+  content: "⨯";
+  margin-left: 4px;
+  cursor: pointer;
+}
+.accordion-header button::before {
+  content: "+";
+  font-size: 10px;
+  color: rgb(105, 105, 105);
+  margin: 5px;
+}
+/* 規格區 */
+.formatBox {
+  border: 1px solid black;
+  display: inline-block;
+  padding: 2px;
+  font-size: 10px;
+  margin: 3px;
+  border-radius: 5px;
+}
+.formatBox:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+.formatBox:focus {
+  background-color: rgb(132, 132, 132);
+}
+.accordion-body span {
+  font-size: 16px;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+.edit:hover {
+  cursor: pointer;
+  box-shadow: 5px 5px 20px 5px #e7e5e5;
+}

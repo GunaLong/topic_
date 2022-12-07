@@ -11,7 +11,6 @@ class Register extends Component {
     let code = document.getElementById("codeVal");
     // 把使用者輸入的資料序列化再傳到data裡
     this.state.data = Array(formser("form"));
-
     if (form.reportValidity()) {
       // 判斷使用者有沒有輸入正確資料
       if (code.value !== this.state.code) {
@@ -115,10 +114,8 @@ class Register extends Component {
   render() {
     return (
       <>
-        <div className="text-center mb-5">
-          <h1>註冊</h1>
-        </div>
-        <div className="main">
+        <div className="text-center mb-5"></div>
+        <div className="main clo ">
           <div className="container h-100">
             <div className="row h-100 ">
               <div className="col-12 col-lg-5  text-lg-end  d-flex justify-content-lg-end justify-content-center  ">

@@ -1,28 +1,44 @@
 import React, { Component } from "react";
 import axios from "axios";
+import authHeader from "./authHeader";
+import swal from "sweetalert";
 class Nav extends Component {
   state = { data: [{}] };
   async componentDidMount() {
-    let data = { cookie: document.cookie.slice(6) };
-    let result = await axios.post(
-      "http://localhost:4000/member/memberinfo",
-      data
-    );
-    if (result.data[0].token !== "") {
+    let result = await axios.get("http://localhost:4000/member/memberinfo", {
+      headers: authHeader(),
+    });
+
+    if (result) {
       this.state.data = result.data[0];
       this.setState({});
     }
   }
   logout = async () => {
-    axios
-      .post(`http://localhost:4000/member/logout${document.cookie.slice(6)}`)
-      .then((res) => {
-        console.log(res);
-        alert("登出成功");
-        window.location = "/";
-      });
+    let flag = await swal({
+      title: "確定要登出嗎?",
+      icon: "info",
+      buttons: {
+        Btn: false,
+        cancel: {
+          text: "取消",
+          visible: true,
+        },
+        confirm: {
+          text: "確定登出",
+          visible: true,
+        },
+      },
+      dangerMode: true,
+    });
+    if (flag) {
+      localStorage.removeItem("token");
+      window.location = "/";
+    }
   };
-
+  login = () => {
+    window.location = "/";
+  };
   render() {
     return (
       <nav className="navbar navbar-dark bg-dark    ">
@@ -36,7 +52,9 @@ class Nav extends Component {
               登出
             </button>
           ) : (
-            <button className="btn btn-outline-success">登入</button>
+            <button className="btn btn-outline-success" onClick={this.login}>
+              登入
+            </button>
           )}
         </div>
       </nav>

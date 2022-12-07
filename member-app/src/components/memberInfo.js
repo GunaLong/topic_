@@ -5,44 +5,20 @@ import Order from "./memberinfoUi/memberOrder";
 import Game from "./memberinfoUi/memberGame";
 import Comment from "./memberinfoUi/memberComment";
 import { Routes, Route, Link } from "react-router-dom";
+import authHeader from "./authHeader";
 class MemberInfo extends Component {
   state = { data: [{}] };
   async componentDidMount() {
-    let data = { cookie: document.cookie.slice(6) };
-    let result = await axios.post(
-      "http://localhost:4000/member/memberinfo",
-      data
-    );
-    if (result.data[0].token !== "") {
+    let result = await axios.get("http://localhost:4000/member/memberinfo", {
+      headers: authHeader(),
+    });
+
+    if (result.data[0]) {
       this.state.data = result.data[0];
       this.setState({});
     }
   }
 
-  upload = () => {
-    console.log(document.getElementById("myfile").files);
-    let file = document.getElementById("myfile").files[0];
-    const formData = new FormData();
-    formData.append("myfile", file);
-    axios
-      .post(
-        `http://localhost:4000/member/upload_file${document.cookie.slice(6)}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        alert("上傳成功");
-        document.getElementById("labText").style.display = "block";
-
-        document.getElementById("myfile").value = "";
-        window.location = "/memberinfo";
-      });
-  };
   image = (e) => {
     const file = e.target.files[0];
     const preview = document.getElementById("myimg");

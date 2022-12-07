@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import axios from "axios";
-
+import authHeader from "../authHeader";
 class Order extends Component {
   state = { data: [{}], orderData: [{}] };
   async componentDidMount() {
-    let result = await axios.get(
-      `http://localhost:4000/member/order${document.cookie.slice(6)}`
-    );
+    let result = await axios.get(`http://localhost:4000/member/order`, {
+      headers: authHeader(),
+    });
     this.state.data = result.data;
     this.setState({});
   }
   orderData = async (orderid) => {
+    console.log(orderid);
     let result = await axios.get(`http://localhost:4000/member/data${orderid}`);
     this.setState({ orderData: result.data });
   };
