@@ -3,6 +3,7 @@ import "./style.css";
 import Axios from "axios";
 import formser from "./formser";
 import { NavLink } from "react-router-dom";
+import swal from "sweetalert";
 class Register extends Component {
   state = { data: [{}], code: "" };
   // post資料到server
@@ -14,7 +15,9 @@ class Register extends Component {
     if (form.reportValidity()) {
       // 判斷使用者有沒有輸入正確資料
       if (code.value !== this.state.code) {
-        alert("驗證碼錯誤");
+        swal("驗證碼  錯誤", "", "error", {
+          buttons: "確定",
+        });
         return;
       }
       const config = {
@@ -27,13 +30,19 @@ class Register extends Component {
       );
       if (result.data === "帳號重複") {
         //result.data是後端send回來的資料
-        alert("帳號重複");
+        swal("帳號已註冊", "", "error", {
+          buttons: "確定",
+        });
         return;
       }
-      alert("成功");
+      swal("註冊成功", "", "success", {
+        buttons: "確定",
+      });
       window.location = "/";
     } else {
-      alert("請輸入完整資料");
+      swal("請輸入完整資料", "", "error", {
+        buttons: "確定",
+      });
     }
   };
   // 寄送驗證碼
@@ -90,7 +99,7 @@ class Register extends Component {
       user_id: "v--zvmBBJMdx7fndE",
       template_params: {
         to_name: document.getElementById("uid").value,
-        from_name: "遊戲平台",
+        from_name: "G-master",
         email: document.getElementById("uid").value,
         num: this.state.code,
       },
@@ -114,8 +123,8 @@ class Register extends Component {
   render() {
     return (
       <>
-        <div className="text-center mb-5"></div>
-        <div className="main clo ">
+        <div style={{ marginTop: "100px" }} className="text-center mb-5"></div>
+        <div className="main ">
           <div className="container h-100">
             <div className="row h-100 ">
               <div className="col-12 col-lg-5  text-lg-end  d-flex justify-content-lg-end justify-content-center  ">
@@ -130,7 +139,7 @@ class Register extends Component {
                 style={{ color: "white" }}
               >
                 <br />
-                <form id="form">
+                <form id="form" className="">
                   <label>帳號:</label>
                   <input
                     id="uid"
@@ -190,7 +199,7 @@ class Register extends Component {
                   ></input>
                   <button
                     id="code"
-                    className="btn btn-outline-success"
+                    className="btn btn-success"
                     onClick={this.emailjs}
                   >
                     發送驗證碼

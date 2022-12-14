@@ -3,13 +3,16 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import formser from "./formser";
 import swal from "sweetalert";
+import Img from "./img";
 
 function Edit() {
-  const urlid = useParams();
-  const [Data, setData] = useState([]);
-  const [mat, setmat] = useState({});
-  const [format, setfomat] = useState([]);
-  const [addmat, setaddmat] = useState([]);
+  let urlid = useParams();
+  let [Data, setData] = useState([]);
+  let [mat, setmat] = useState({});
+  let [format, setfomat] = useState([]);
+  let [file, setfile] = useState([]);
+  let [url, seturl] = useState([]);
+
   // 載入資料
   const asyncFn = async () => {
     let result = await axios.get(
@@ -33,37 +36,33 @@ function Edit() {
         `http://localhost:4000/back/formatedit${urlid.data}`,
         formser(".form input")
       );
+    } else {
+      swal("請填寫完整資料", "", "error", {
+        buttons: "確定",
+      });
     }
     let file = document.getElementById("addFile").files;
     const formData = new FormData();
     for (let i = 0; i < file.length; i++) {
       formData.append("addFile", file[i]);
     }
-    try {
-      let result1 = await axios.post(
-        `http://localhost:4000/back/commodityImg${urlid.data}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-    } catch (err) {
-      console.log(err);
+
+    await axios.post(
+      `http://localhost:4000/back/commodityImg${urlid.data}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    let flag = await swal("更改成功", "", "success", {
+      buttons: "確定",
+    });
+    if (flag) {
+      window.location = "/commodity";
     }
-    // if (document.querySelector(".form2").reportValidity()) {
-    //   let arr = [];
-    //   let arr2 = [];
-    //   for (let i = 0; i < addmat.length; i++) {
-    //     let data = formser(`#status${i}`);
-    //     data["id"] = urlid.data;
-    //     data["format"] = addmat[i].innerHTML;
-    //     data["formatName"] = document.getElementById("formatText").value;
-    //     arr.push(data);
-    //   }
-    //   arr.push(arr2);
-    //   let result = await axios.post("http://localhost:4000/back/format", arr);
   };
   // 刪除規格
   const deletemat = async (pid) => {
@@ -85,12 +84,22 @@ function Edit() {
     });
     if (flag) {
       await axios.delete(`http://localhost:4000/back/delete${pid}`);
-      alert("刪除成功");
-      window.location.reload();
+      let flag2 = await swal("刪除成功", "", "success", {
+        buttons: "確定",
+      });
+      if (flag2) {
+        window.location.reload();
+      }
     }
   };
   //刪除圖片
   const deleteimg = async (photoId) => {
+    if (Data.length < 2) {
+      swal("最少要留一張圖片!!", "", "error", {
+        buttons: "確定",
+      });
+      return;
+    }
     let flag = await swal({
       title: "確定要刪除嗎?",
       icon: "warning",
@@ -110,8 +119,12 @@ function Edit() {
     if (flag) {
       try {
         await axios.delete(`http://localhost:4000/back/imgdelete${photoId}`);
-        alert("刪除成功");
-        window.location.reload();
+        let flag2 = await swal("刪除成功", "", "success", {
+          buttons: "確定",
+        });
+        if (flag2) {
+          window.location.reload();
+        }
       } catch (err) {
         alert(err);
       }
@@ -120,86 +133,79 @@ function Edit() {
   // 更新上架狀態
   const changeStatus = async (e, pid) => {
     if (e.target.checked) {
-      let result = await axios.put(`http://localhost:4000/back/updata${pid}`, {
+      await axios.put(`http://localhost:4000/back/updata${pid}`, {
         Status: "on",
       });
     } else {
-      let result = await axios.put(`http://localhost:4000/back/updata${pid}`, {
+      await axios.put(`http://localhost:4000/back/updata${pid}`, {
         Status: "",
       });
     }
   };
   // 預覽圖
   const image = (e) => {
-    let file = e.target.files;
-    let args = Array.from(file);
-    args.forEach((val, i) => {
-      let img = document.createElement("img");
-      let _url = window.URL.createObjectURL(args[i]);
-      img.className = "imgStyle";
-      img.src = _url;
-      document.getElementById("imgBox2").appendChild(img);
+    file = Array.from(e.target.files);
+    setfile();
+    file.forEach((val, i) => {
+      let _url = window.URL.createObjectURL(file[i]);
+      url.push(_url);
     });
+    seturl(Array.from(url));
   };
-  //新增規格
-  const format1 = (e) => {
-    if (e.key === "Enter") {
-      let p = document.createElement("span");
-      p.innerHTML = document.querySelector(".textFromat").value || "請輸入規格";
-      p.className = "badge bg-success me-2 p-1 textSpan";
-      document.querySelector(".format").appendChild(p);
-      document.querySelector(".textFromat").value = "";
-      let span = document.querySelectorAll(".badge");
-      for (let i = 0; i < span.length; i++) {
-        span[i].addEventListener("click", (e) => {
-          e.target.remove();
-        });
-      }
-      setaddmat(Array.from(span));
-    }
-  };
+
   return (
-    <div className="col-10 offset-2 ">
+    <div className="col-10 offset-2 bg-light vh-100">
       <form className="form">
-        <h4>商品圖片</h4>
-        <div id="imgBox" className="d-flex flex-wrap">
-          <div id="imgBox2" className="d-flex ">
-            {Data.map((val) => {
-              return (
-                <div key={Math.random()} className="border me-3 text-center">
-                  <img
-                    alt="商品圖片"
-                    className="w-100 imgStyle"
-                    src={val.peripheralPhotoGroup}
-                  ></img>
-                  <span
-                    className="m-1 btn btn-outline-success"
-                    onClick={() => {
-                      deleteimg(val.photoId);
-                    }}
+        <div className="p-4 my-3 m-5 commodity shadow-sm">
+          <h4>商品圖片</h4>
+          <div id="imgBox" className="d-flex flex-wrap">
+            <div id="imgBox2" className="d-flex ">
+              {Data.map((val) => {
+                return (
+                  <div
+                    key={Math.random()}
+                    className="border me-3 text-center p-2 rounded"
                   >
-                    刪除
-                  </span>
-                </div>
-              );
-            })}
+                    <img
+                      alt="商品圖片"
+                      className="imgStyle"
+                      src={val.peripheralPhotoGroup}
+                    ></img>
+                    <br />
+                    <span
+                      className="m-1 btn btn-outline-success"
+                      onClick={() => {
+                        deleteimg(val.photoId);
+                      }}
+                    >
+                      刪除
+                    </span>
+                  </div>
+                );
+              })}
+              {url.map((val) => {
+                return (
+                  <Img url={val} key={Math.random()} styleClass={"imgStyle"} />
+                );
+              }) || ""}
+            </div>
+            <label className="border d-flex justify-content-center align-items-center imgLabel">
+              <span>點擊新增圖片</span>
+              <input
+                className="d-none"
+                type="file"
+                name="addFile"
+                id="addFile"
+                multiple="multiple"
+                onChange={image}
+              ></input>
+            </label>
           </div>
-          <label className="border d-flex justify-content-center align-items-center imgLabel">
-            <span>點擊新增圖片</span>
-            <input
-              className="d-none"
-              type="file"
-              name="addFile"
-              id="addFile"
-              multiple="multiple"
-              onChange={image}
-            ></input>
-          </label>
         </div>
-        <hr />
-        <div className="textBox">
+
+        <div className="textBox p-4 my-3 m-5 commodity shadow-sm">
           <div className="d-flex justify-content-between">
-            <span className="fs-4">商品名稱</span>
+            <span className="fs-5">商品名稱</span>
             <input
               type="text"
               name="peripheralName"
@@ -207,7 +213,7 @@ function Edit() {
               defaultValue={mat.peripheralName}
               required
             />
-            <span className="fs-4">商品分類</span>
+            <span className="fs-5">商品分類</span>
             <input
               type="text"
               name="peripheralClass"
@@ -215,7 +221,7 @@ function Edit() {
               defaultValue={mat.peripheralClass}
               required
             />
-            <span className="fs-4">商品品牌</span>
+            <span className="fs-5">商品品牌</span>
             <input
               type="text"
               name="peripheralBrand"
@@ -234,137 +240,72 @@ function Edit() {
             required
           ></input>
         </div>
-        <hr />
       </form>
-      <h4>商品規格</h4>
-      {format.map((val) => {
-        return (
-          <div key={Math.random()} className="row border m-3 p-2 rounded-2 ">
-            <div className="col-2 offset-1">
-              <div className="d-flex justify-content-center align-items-center">
-                規格:
-                <div className="formatBox ms-2">
-                  {val.peripheralProduct}
-                  <br />
-                  {val.peripheralProduct2}
+      <div className="p-4 my-3 m-5 commodity shadow-sm">
+        <h5>商品規格</h5>
+        {format.map((val) => {
+          return (
+            <div key={Math.random()} className="row border m-3 p-2 rounded-2  ">
+              <div className="col-2 offset-1">
+                <div className="d-flex justify-content-center align-items-center">
+                  規格:
+                  <div className="formatBox ms-2">
+                    {val.peripheralProduct}
+                    <br />
+                    {val.peripheralProduct2}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-2 d-flex justify-content-center align-items-center">
-              <span>售價:</span>
-              <input
-                className="form-control w-50 p-1 ms-2"
-                type="text"
-                defaultValue={val.peripheralPrice}
-              />
-            </div>
-            <div className="col-2 d-flex justify-content-center align-items-center">
-              <span>庫存:</span>
-              <input
-                className="form-control w-50 p-1 ms-2"
-                type="text"
-                defaultValue={val.peripheralCount}
-              />
-            </div>
-            <div className="col-2 d-flex justify-content-center align-items-center">
-              <span>上架狀態:</span>
-              <div className="form-check form-switch d-inline-block ms-3">
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <span>售價:</span>
                 <input
-                  className="form-check-input"
-                  type="checkbox"
-                  name="status"
-                  defaultChecked={val.Status === "on" ? true : false}
-                  onChange={(e) => {
-                    changeStatus(e, val.pid);
-                  }}
+                  className="form-control w-50 p-1 ms-2"
+                  type="text"
+                  defaultValue={val.peripheralPrice}
                 />
               </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <span>庫存:</span>
+                <input
+                  className="form-control w-50 p-1 ms-2"
+                  type="text"
+                  defaultValue={val.peripheralCount}
+                />
+              </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <span>上架狀態:</span>
+                <div className="form-check form-switch d-inline-block ms-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="status"
+                    defaultChecked={val.Status === "on" ? true : false}
+                    onChange={(e) => {
+                      changeStatus(e, val.pid);
+                    }}
+                  />
+                </div>
+              </div>
+              <div
+                className="col-1 d-flex align-items-center"
+                onClick={() => {
+                  deletemat(val.pid);
+                }}
+              >
+                <img
+                  alt="刪除"
+                  style={{ width: "30px", height: "30px" }}
+                  className="  p-1 border"
+                  src="https://cdn.discordapp.com/attachments/400275387919368192/1049601198862368818/bin.png"
+                ></img>
+              </div>
             </div>
-            <div
-              className="col-1 text-end"
-              onClick={() => {
-                deletemat(val.pid);
-              }}
-            >
-              <img
-                className="w-25 p-1 border"
-                src="https://cdn.discordapp.com/attachments/400275387919368192/1049601198862368818/bin.png"
-              ></img>
-            </div>
-          </div>
-        );
-      })}
-      <hr />
-      <h4>新增規格</h4>
-      <form className="form2">
-        <div className="d-flex m-3">
-          <input
-            type="text"
-            className="form-control w-25"
-            name="format"
-            id="formatText"
-            required
-          />
-          {/* 規格一 */}
-          <label
-            htmlFor="textFromat"
-            className="form-control d-flex w-50 ms-3 "
-          >
-            <div className="format"></div>
-            <input
-              type="text"
-              placeholder="請輸入規格"
-              className="w-50 textFromat"
-              name="textFromat"
-              onKeyPress={format1}
-            />
-          </label>
-        </div>
-        <table className="table text-center">
-          <thead>
-            <tr>
-              <th>規格</th>
-              <th>售價</th>
-              <th>特價</th>
-              <th>數量</th>
-            </tr>
-          </thead>
-          <tbody>
-            {addmat.map((val, i) => {
-              return (
-                <tr key={Math.random()}>
-                  <td>{val.innerHTML}</td>
-                  <td>
-                    <input
-                      type="text"
-                      name="price"
-                      className="form-control"
-                      id={"status" + i}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="coupon"
-                      className="form-control"
-                      id={"status" + i}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="count"
-                      className="form-control"
-                      id={"status" + i}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </form>
-      <button onClick={submit}>123</button>
+          );
+        })}
+      </div>
+      <button className="btn btn-success me-5 m-2 float-end" onClick={submit}>
+        確定修改
+      </button>
     </div>
   );
 }

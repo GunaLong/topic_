@@ -83,18 +83,17 @@ const ensureToken = (req, res, next) => {
     const bearer = bearerHeader.split(" "); // 字串切割
     const bearerToken = bearer[1]; // 取得 JWT
     req.token = bearerToken; // 在response中建立一個token參數
-    next(); // 結束 Middleware 進入 articleCtrl.articlePersonalGet
+    next(); // 結束 Middleware 進入 selectPersonalArticle
   } else {
     res
       .status(403)
-      .send(Object.assign({ code: 403 }, { message: "您尚未登入！" })); // Header 查無 Rearer Token
-  }
+      .send(Object.assign({ code: 403 }, { message: "您尚未登入！" }));
+  } // Header 查無 Rearer Token}
 };
 
 //登入路由
 app.post("/login", async (req, res) => {
-  const data = req.body;
-  let result = await login(data);
+  let result = await login(req.body);
   res.send(result);
 });
 
@@ -213,7 +212,7 @@ app.get("/game", ensureToken, (req, res) => {
   selectPersonalArticle(req.token)
     .then((result) => {
       db.conn(
-        "SELECT gameName,gamePhoto,gameClass,mail,gameTime FROM member JOIN gamelibrary on member.uid = gamelibrary.uid JOIN gameinfo on gameinfo.gameId = gamelibrary.gameid where mail=? AND gameClass != '周邊'",
+        "SELECT gameName,gameClass,mail,gameTime,gamePhoto FROM member JOIN gamelibrary on member.uid = gamelibrary.uid JOIN gameinfo on gameinfo.gameId = gamelibrary.gameid JOIN gameinfopic on gameinfo.gameId=gameinfopic.gameId where mail=? AND gameClass != '周邊' GROUP by  member.mail",
         [result],
         (rows) => {
           res.send(rows);

@@ -2,17 +2,41 @@
   padding: 0px;
   margin: 0px;
 }
+/* NAV */
 ul {
   list-style: none;
-  width: 280px;
+  width: 250px;
+}
+li:focus {
+  color: rgba(255, 254, 254, 1);
+  cursor: pointer;
+  border-left: rgb(7, 41, 100) 2px solid;
+  transition: 0.3s;
 }
 li:hover {
-  background-color: rgb(196, 202, 202);
+  color: rgb(255, 255, 255);
   cursor: pointer;
-  border-radius: 10px;
+  border-left: rgb(3, 42, 109) 2px solid;
+}
+li {
+  color: rgba(0, 0, 0, 0.6);
+}
+.navbg {
+  background-color: rgb(222, 191, 153);
+}
+.navtop {
+  color: rgba(255, 254, 254, 0.6);
+  background-color: #a3793f;
+}
+.navtop:hover {
+  color: rgb(255, 254, 254);
+  color: rgba(255, 254, 254, 1);
+  cursor: pointer;
+  transition: 0.3s;
 }
 .linkText {
   text-decoration: none;
+
   color: #000;
 }
 .linkText:hover {
@@ -20,7 +44,6 @@ li:hover {
 }
 input {
   border: none;
-
   appearance: none;
 }
 input:focus {
@@ -41,6 +64,12 @@ input:focus {
 }
 .imgStyle {
   width: 150px;
+  height: 150px;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+.forumImgStyle {
+  width: 400px;
   height: 150px;
   margin-right: 10px;
   border-radius: 5px;
@@ -75,7 +104,7 @@ input:focus {
   cursor: pointer;
 }
 .formatBox:focus {
-  background-color: rgb(132, 132, 132);
+  background-color: rgb(212, 206, 206);
 }
 .accordion-body span {
   font-size: 16px;
@@ -86,4 +115,21 @@ body::-webkit-scrollbar {
 .edit:hover {
   cursor: pointer;
   box-shadow: 5px 5px 20px 5px #e7e5e5;
+}
+/* 商品區 */
+.commodity {
+  background-color: #fffefe;
+  border-radius: 10px;
+}
+.searchInput {
+  border-bottom: #000 1px solid;
+}
+/* 後台首頁 */
+.item {
+  background-color: white;
+  border-radius: 5px;
+}
+select {
+  padding: 5px;
+  border-radius: 5px;
 }

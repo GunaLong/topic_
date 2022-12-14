@@ -1,32 +1,36 @@
 import React, { Component } from "react";
 import axios from "axios";
 class Format extends Component {
-  state = { data: [{}], format: [] };
+  state = { data: [], format: [] };
   async componentDidMount() {
     let result = await axios.get(
       `http://localhost:4000/back/peripheralformat${this.props.id}`
     );
-    this.state.data = result.data;
-    this.setState({});
+
+    this.setState({ data: result.data });
   }
 
   detailed = (price, count, status) => {
-    this.state.format = [price, count, status];
-    this.setState({});
+    // this.state.format = [price, count, status];
+    this.setState({ format: [price, count, status] });
   };
   render() {
     return (
-      <div className="accordion-body row m-2 border p-2">
+      <div className="accordion-body row m-2 border p-2 rounded">
         <div style={{ height: "80px" }} className="col-1 ">
-          <img className="w-100 rounded-2 h-100" src={this.props.img}></img>
+          <img
+            className="w-100 rounded-2 h-100"
+            alt="商品圖"
+            src={this.props.img}
+          ></img>
         </div>
         <div className="col-4 d-flex align-items-center">
           <span>規格:</span>
           {this.state.data.map((val) => {
             return (
               <div
-                className="formatBox"
                 tabIndex="1"
+                className="formatBox"
                 onClick={() => {
                   this.detailed(
                     val.peripheralPrice,

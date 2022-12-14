@@ -39,25 +39,89 @@ class Nav extends Component {
   login = () => {
     window.location = "/";
   };
+  DropDonw = () => {
+    var state = document.getElementById("InfoBar").style.display;
+    console.log(state);
+    if (state == "none") {
+      return (document.getElementById("InfoBar").style.display = "block");
+    } else {
+      return (document.getElementById("InfoBar").style.display = "none");
+    }
+  };
   render() {
     return (
-      <nav className="navbar navbar-dark bg-dark    ">
-        <div className="container-fluid ">
-          <a className="navbar-brand" href="#123">
-            Navbar
-          </a>
+      <header className="main-head container-fluid ">
+        <div className="">
+          <nav className="NavBar row justify-content-between">
+            <div className="logo  col-1 mx-sm-4">
+              <img src="../img/logo.png" alt="logo" />
+            </div>
+            <div className="col-9 col-md-8 ">
+              <label htmlFor="switch">
+                <img src="../img/nav.jpg" alt="nav" />
+              </label>
+              <input type="checkbox" id="switch" />
+              <ul className="menu row">
+                <li className="col-md">
+                  <img src="../img/shopping-bag.png" alt="bag" />
+                  <a href="#">商店</a>
+                </li>
+                <li className="col-md">
+                  <img src="../img/discuss.png" alt="disuss" />
+                  <a href="/forum">論壇</a>
+                </li>
+                <li className="col-md">
+                  <img src="../img/qa.png" alt="qa" />
+                  <a href="#">協助</a>
+                </li>
 
-          {this.state.data.mail ? (
-            <button className="btn btn-outline-success" onClick={this.logout}>
-              登出
-            </button>
-          ) : (
-            <button className="btn btn-outline-success" onClick={this.login}>
-              登入
-            </button>
-          )}
+                <li className="col-md downinfo">
+                  <img src="../img/shopping-cart.png" alt="cart" />
+                  <a href="#">購物車</a>
+                </li>
+              </ul>
+            </div>
+            {this.state.data.mail ? (
+              <div className="shoppingcart col-1 ">
+                <a href="#">
+                  <img src="../img/shopping-cart.png" alt="cart" />
+                </a>
+                <div
+                  className="MemberInfo col-1 mx-ms-4 "
+                  onClick={this.DropDonw}
+                >
+                  <img
+                    style={{ cursor: "pointer" }}
+                    src="../img/member.jpg"
+                    alt="member"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="col-1  shoppingcart justify-content-end">
+                <div>
+                  <button className="btn btn-success">登入</button>
+                </div>
+              </div>
+            )}
+          </nav>
+
+          <div className="dropdown col-12">
+            <ul id="InfoBar" className="row">
+              <li className="col-12 ">
+                <li className="col-12 ">
+                  <a href="#" className="link">
+                    會員中心
+                  </a>
+                </li>
+                <a href="#" className="link" onClick={this.logout}>
+                  登出
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </nav>
+      </header>
     );
   }
 }

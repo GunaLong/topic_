@@ -32,11 +32,13 @@ class Main extends Component {
 
       if (result) {
         if (result.data === "帳號錯誤" || result.data === "密碼錯誤") {
-          let flag = swal("帳號密碼錯誤", "", "error", {
+          console.log(result);
+          swal("帳號密碼錯誤", "", "error", {
             buttons: "確定",
           });
         } else {
           localStorage.setItem("token", result.data.token);
+
           document.getElementById("userId").value = "";
           document.getElementById("userPassword").value = "";
           window.location = "/memberinfo";
@@ -46,7 +48,7 @@ class Main extends Component {
   };
   render() {
     return (
-      <div className="row">
+      <div style={{ marginTop: "60px" }} className="row ">
         <div className="col-12  d-flex  clo">
           <div className="m-auto bg-dark p-5">
             <div class="login-form ">

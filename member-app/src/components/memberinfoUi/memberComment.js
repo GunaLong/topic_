@@ -22,7 +22,10 @@ class Comment extends Component {
         <div className="p-3 p-lg-5 box1 ">
           {this.state.data.map((val) => {
             return (
-              <div className="row border align-items-center p-3 rounded-2 mb-3">
+              <div
+                key={Math.random()}
+                className="row border align-items-center p-3 rounded-2 mb-3"
+              >
                 <h6>{val.comment}</h6>
                 <div className="comSpan">
                   <span>{val.gameName}</span>

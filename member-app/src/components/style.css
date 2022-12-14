@@ -9,14 +9,17 @@
   width: 100%;
   background-image: url("https://cdn.discordapp.com/attachments/1029313785917349900/1045168850418794516/LoginBG_02.png");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-position: center;
   padding: 0px;
 }
 
 .main {
-  background-color: rgba(3, 64, 98, 0.6);
   height: 70vh;
+  background-image: url("https://cdn.discordapp.com/attachments/1029313785917349900/1045168850418794516/LoginBG_02.png");
+  background-repeat: no-repeat;
+  background-position: center;
 }
+
 .link {
   text-decoration: none;
   color: lightgrey;
@@ -51,10 +54,12 @@
   background: transparent;
 }
 #form input:focus {
-  border-color: rgb(92, 177, 206);
-  transition: border 2s;
+  border-color: rgb(36, 80, 201);
+  transition: border 0.5s;
 }
-
+#form input::placeholder {
+  color: rgb(188, 184, 184);
+}
 /* 會員資訊頁 */
 
 .info:hover {

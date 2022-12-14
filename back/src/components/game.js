@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Format from "./format";
+import Gameformat from "./gameformat";
 import swal from "sweetalert";
-class Commodity extends Component {
-  state = { data: [], search: { search: "" } };
+class Game extends Component {
+  state = { data: [{}], search: { search: "" } };
   async componentDidMount() {
-    let result = await axios.get("http://localhost:4000/back/peripheralinfo");
+    let result = await axios.get("http://localhost:4000/back/game");
     this.setState({ data: result.data });
   }
   alldelete = async (pid) => {
@@ -35,7 +35,7 @@ class Commodity extends Component {
 
   search = async () => {
     let result = await axios.post(
-      `http://localhost:4000/back/search`,
+      `http://localhost:4000/back/gameSearch`,
       this.state.search
     );
 
@@ -49,7 +49,7 @@ class Commodity extends Component {
           <input
             type="text"
             className="w-50 p-2 searchInput"
-            placeholder="請輸入周邊名稱"
+            placeholder="請輸入遊戲名稱"
             onChange={(e) => {
               this.state.search.search = e.target.value;
             }}
@@ -59,30 +59,30 @@ class Commodity extends Component {
           </button>
         </div>
         <div className="text-start">
-          <Link to="/newproduct" className="float-end btn btn-success">
-            新增周邊
+          <Link to="/gameadd" className="float-end btn btn-success">
+            新增遊戲
           </Link>
         </div>
-        <h3 className="text-success">周邊列表</h3>
+        <h3 className="text-success">遊戲列表</h3>
         <div className="text-start commodity p-3 mt-4 shadow">
           <div className="row justify-content-between text-success">
             <div className="col-1">
-              <span>周邊編號</span>
-            </div>
-            <div className="col-2">
-              <span>周邊名稱</span>
-            </div>
-            <div className="col-3">
-              <span>周邊介紹</span>
+              <span>遊戲編號</span>
             </div>
             <div className="col-1">
-              <span>周邊類型</span>
+              <span>遊戲名稱</span>
+            </div>
+            <div className="col-4">
+              <span>遊戲介紹</span>
             </div>
             <div className="col-1">
-              <span>周邊出版商</span>
+              <span>遊戲類型</span>
             </div>
             <div className="col-1">
-              <span>周邊讚數</span>
+              <span>遊戲出版商</span>
+            </div>
+            <div className="col-1 text-center">
+              <span>遊戲讚數</span>
             </div>
             <div className="col-1 ">
               <span>上架時間</span>
@@ -111,36 +111,36 @@ class Commodity extends Component {
                             data-bs-toggle="collapse"
                             data-bs-target={"#flush-collapseOne" + i}
                           >
-                            {val.peripheralId}
+                            {val.gameId}
                           </button>
                         </h2>
                       </div>
                     </span>
                   </div>
-                  <div className="col-2">
-                    <span>{val.peripheralName}</span>
+                  <div className="col-1">
+                    <span>{val.gameName}</span>
                   </div>
-                  <div className="col-3">
-                    <span>{val.peripheralText}</span>
+                  <div className="col-4">
+                    <span>{val.gameText}</span>
                   </div>
                   <div className="col-1">
-                    <span>{val.peripheralClass}</span>
+                    <span>{val.gameClass}</span>
                   </div>
                   <div className="col-1">
-                    <span>{val.peripheralBrand}</span>
+                    <span>{val.gameDeveloper}</span>
                   </div>
-                  <div className="col-1">
-                    <span>{val.peripheralGood}</span>
+                  <div className="col-1 text-center">
+                    <span>{val.gameGood}</span>
                   </div>
                   <div className="col-1">
                     <span style={{ fontSize: "14px" }}>
-                      {val.peripheraldate}
+                      {val.gameIssueDate}
                     </span>
                   </div>
                   <div className="col-2 d-flex justify-content-around">
-                    <span className="ms-3">{val.peripheralCoupon || 0}</span>
+                    <span className="ms-3">{val.gameCoupon || 0}</span>
                     <a
-                      href={`/edit/${val.peripheralId}`}
+                      href={`/gameedit/${val.gameId}`}
                       className="w-25 text-end ms-2"
                     >
                       <img
@@ -168,11 +168,7 @@ class Commodity extends Component {
                   className="accordion-collapse collapse align-items-center "
                   data-bs-parent="#accordionFlushExample"
                 >
-                  <Format
-                    id={val.peripheralId}
-                    key={Math.random()}
-                    img={val.peripheralPhotoGroup}
-                  />
+                  <Gameformat data={val} key={Math.random()} />
                 </div>
                 <hr />
               </div>
@@ -184,4 +180,4 @@ class Commodity extends Component {
   }
 }
 
-export default Commodity;
+export default Game;

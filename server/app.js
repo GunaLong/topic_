@@ -13,13 +13,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // app.use(cors({}));
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "http://localhost:9527"],
-    credentials: true,
-  })
-  // 要設定網域才有辦法設定cookie
-);
+app.use(cors({}));
+// 要設定網域才有辦法設定cookie
 
 const member = require("./member");
 app.use("/member", member);

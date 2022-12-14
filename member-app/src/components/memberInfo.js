@@ -39,7 +39,7 @@ class MemberInfo extends Component {
   render() {
     return (
       <>
-        <div className="container ">
+        <div style={{ marginTop: "100px" }} className="container ">
           <div
             className="row mt-3 mb-3 rounded-3 p-3 orderShadow"
             style={{ backgroundColor: "rgb(28,28,29)" }}

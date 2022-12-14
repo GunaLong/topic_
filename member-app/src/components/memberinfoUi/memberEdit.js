@@ -178,11 +178,7 @@ class MemberEdit extends Component {
                                     <td>
                                       <input
                                         name="nickname"
-                                        style={{
-                                          borderStyle: "none",
-                                          backgroundColor: "rgb(56,65,73)",
-                                        }}
-                                        className=" m-0"
+                                        className="bg-dark m-0"
                                         type="text"
                                         required
                                       ></input>
