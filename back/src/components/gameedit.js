@@ -154,7 +154,7 @@ function Gameedit() {
   };
 
   return (
-    <div className="col-10 offset-2 bg-light vh-100">
+    <div className="col-10 offset-2 bg-light ">
       <form className="form">
         <div className="p-4 my-3 m-5 commodity shadow-sm">
           <h4>商品圖片</h4>

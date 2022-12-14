@@ -118,9 +118,11 @@ app.post("/register", async (req, res) => {
           data[0].email,
           data[0].birthday,
           data[0].address,
-        ]
+        ],
+        (rows) => {
+          res.send("註冊成功");
+        }
       );
-      res.send("註冊成功");
     } else {
       res.send("帳號重複");
     }
@@ -212,7 +214,7 @@ app.get("/game", ensureToken, (req, res) => {
   selectPersonalArticle(req.token)
     .then((result) => {
       db.conn(
-        "SELECT gameName,gameClass,mail,gameTime,gamePhoto FROM member JOIN gamelibrary on member.uid = gamelibrary.uid JOIN gameinfo on gameinfo.gameId = gamelibrary.gameid JOIN gameinfopic on gameinfo.gameId=gameinfopic.gameId where mail=? AND gameClass != '周邊' GROUP by  member.mail",
+        "SELECT gameName,gameClass,mail,gameTime,gamePhoto FROM member JOIN gamelibrary on member.uid = gamelibrary.uid JOIN gameinfo on gameinfo.gameId = gamelibrary.gameid JOIN gameinfopic on gameinfo.gameId=gameinfopic.gameId where mail=? AND gameClass != '周邊' GROUP by gameName",
         [result],
         (rows) => {
           res.send(rows);

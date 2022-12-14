@@ -105,9 +105,13 @@ class Dashboard extends Component {
           <Bar data={this.state.data} />
           <hr />
           <div className="row justify-content-around container mb-5">
-            <Indexitem title="使用者總數" img="../img/team.png" />
-            <Indexitem title="最新周邊" img="../img/trolley.png" />
-            <Indexitem title="最熱遊戲" img="../img/console.png" />
+            <Indexitem title="使用者總數" img="../img/team.png" text="353" />
+            <Indexitem title="最新周邊" img="../img/trolley.png" text="ps5" />
+            <Indexitem
+              title="最熱遊戲"
+              img="../img/console.png"
+              text="艾爾登法環"
+            />
           </div>
         </div>
       </>

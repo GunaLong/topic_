@@ -9,7 +9,7 @@ class Game extends Component {
     let result = await axios.get("http://localhost:4000/back/game");
     this.setState({ data: result.data });
   }
-  alldelete = async (pid) => {
+  alldelete = async (gameId) => {
     let flag = await swal({
       title: "確定要刪除嗎?",
       icon: "warning",
@@ -27,9 +27,13 @@ class Game extends Component {
       dangerMode: true,
     });
     if (flag) {
-      await axios.delete(`http://localhost:4000/back/alldelete${pid}`);
-      alert("刪除成功");
-      window.location.reload();
+      await axios.delete(`http://localhost:4000/back/gameAllDelete${gameId}`);
+      let flag1 = await swal("刪除成功", "", "success", {
+        buttons: "確定",
+      });
+      if (flag1) {
+        window.location.reload();
+      }
     }
   };
 
@@ -152,7 +156,7 @@ class Game extends Component {
                     <div
                       className="w-25 text-end me-2"
                       onClick={() => {
-                        this.alldelete(val.peripheralId);
+                        this.alldelete(val.gameId);
                       }}
                     >
                       <img

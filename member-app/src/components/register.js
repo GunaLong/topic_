@@ -35,10 +35,12 @@ class Register extends Component {
         });
         return;
       }
-      swal("註冊成功", "", "success", {
+      let flag = await swal("註冊成功", "", "success", {
         buttons: "確定",
       });
-      window.location = "/";
+      if (flag) {
+        window.location = "/";
+      }
     } else {
       swal("請輸入完整資料", "", "error", {
         buttons: "確定",
@@ -111,7 +113,9 @@ class Register extends Component {
       config
     )
       .then((e) => {
-        alert("成功");
+        swal("寄送成功", "", "success", {
+          buttons: "確定",
+        });
       })
       .catch(() => {
         alert("請輸入信箱");

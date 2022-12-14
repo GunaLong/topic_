@@ -9,7 +9,7 @@ class Indexitem extends Component {
           <img className="w-25" alt="user" src={this.props.img}></img>
         </div>
         <div className="d-flex justify-content-center">
-          <b className="mt-3">353</b>
+          <b className="mt-3">{this.props.text}</b>
         </div>
       </div>
     );

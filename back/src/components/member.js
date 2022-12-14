@@ -32,7 +32,7 @@ class Member extends Component {
         config
       )
       .then(async (e) => {
-        let x = await swal("上架成功", "", "success", {
+        let x = await swal("寄送成功", "", "success", {
           buttons: "確定",
         });
         if (x) {

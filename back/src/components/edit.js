@@ -154,10 +154,10 @@ function Edit() {
   };
 
   return (
-    <div className="col-10 offset-2 bg-light vh-100">
+    <div className="col-10 offset-2 bg-light ">
       <form className="form">
         <div className="p-4 my-3 m-5 commodity shadow-sm">
-          <h4>商品圖片</h4>
+          <h4>周邊圖片</h4>
           <div id="imgBox" className="d-flex flex-wrap">
             <div id="imgBox2" className="d-flex ">
               {Data.map((val) => {
@@ -167,7 +167,7 @@ function Edit() {
                     className="border me-3 text-center p-2 rounded"
                   >
                     <img
-                      alt="商品圖片"
+                      alt="周邊圖片"
                       className="imgStyle"
                       src={val.peripheralPhotoGroup}
                     ></img>
@@ -205,7 +205,7 @@ function Edit() {
 
         <div className="textBox p-4 my-3 m-5 commodity shadow-sm">
           <div className="d-flex justify-content-between">
-            <span className="fs-5">商品名稱</span>
+            <span className="fs-5">周邊名稱</span>
             <input
               type="text"
               name="peripheralName"
@@ -213,7 +213,7 @@ function Edit() {
               defaultValue={mat.peripheralName}
               required
             />
-            <span className="fs-5">商品分類</span>
+            <span className="fs-5">周邊分類</span>
             <input
               type="text"
               name="peripheralClass"
@@ -221,7 +221,7 @@ function Edit() {
               defaultValue={mat.peripheralClass}
               required
             />
-            <span className="fs-5">商品品牌</span>
+            <span className="fs-5">周邊品牌</span>
             <input
               type="text"
               name="peripheralBrand"
@@ -231,7 +231,7 @@ function Edit() {
             />
           </div>
           <hr />
-          <h4 className="d-flex">商品敘述</h4>
+          <h4 className="d-flex">周邊敘述</h4>
           <input
             type="text"
             name="peripheralText"
@@ -242,7 +242,7 @@ function Edit() {
         </div>
       </form>
       <div className="p-4 my-3 m-5 commodity shadow-sm">
-        <h5>商品規格</h5>
+        <h5>周邊規格</h5>
         {format.map((val) => {
           return (
             <div key={Math.random()} className="row border m-3 p-2 rounded-2  ">

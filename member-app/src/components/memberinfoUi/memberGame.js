@@ -27,7 +27,7 @@ class Game extends Component {
                   <div className="overlay d-flex align-items-end justify-content-center">
                     <span className="fs-5 fs-6">
                       {val.gameName} <br />
-                      2011/2/1
+                      {val.gameTime}
                     </span>
                   </div>
                   <img

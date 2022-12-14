@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import formser from "../formser";
 import authHeader from "../authHeader";
+import swal from "sweetalert";
 class MemberEdit extends Component {
   state = {};
   // 更新資料
@@ -21,7 +22,6 @@ class MemberEdit extends Component {
         .then((res) => {
           document.getElementById("labText").style.display = "block";
           document.getElementById("myfile").value = "";
-          alert("圖片上傳成功");
         })
         .catch(() => {
           alert("照片上傳失敗");
@@ -34,10 +34,14 @@ class MemberEdit extends Component {
         .put(`http://localhost:4000/member/upload_data`, data, {
           headers: authHeader(),
         })
-        .then((res) => {
+        .then(async (res) => {
           console.log(res);
-          alert("更新成功");
-          window.location = "/memberinfo";
+          let flag = await swal("更改成功", "", "success", {
+            buttons: "確定",
+          });
+          if (flag) {
+            window.location = "/memberinfo";
+          }
         })
         .catch(() => {
           alert("更新失敗");

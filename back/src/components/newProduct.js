@@ -53,10 +53,12 @@ class Newproduct extends Component {
       arr.push(arr2);
 
       let result = await axios.post("http://localhost:4000/back/format", arr);
-      swal("上架成功", "", "success", {
+      let flag = await swal("上架成功", "", "success", {
         buttons: "確定",
       });
-      window.location = "/commodity";
+      if (flag) {
+        window.location = "/commodity";
+      }
     } else {
       swal("請填寫完整資料", "", "error", {
         buttons: "確定",
@@ -78,7 +80,7 @@ class Newproduct extends Component {
     }
     this.setState({});
   };
-  // 商品規格
+  // 周邊規格
   format = (e) => {
     if (e.key === "Enter") {
       let p = document.createElement("span");
@@ -121,7 +123,7 @@ class Newproduct extends Component {
       <div className="col-10 offset-2  bg-light">
         <form id="form">
           <div className=" p-4 my-3 m-5 commodity shadow-sm">
-            <h4>商品圖片</h4>
+            <h4>周邊圖片</h4>
             <div id="imgBox" className="d-flex ">
               <div id="imgBox2" className="d-flex">
                 {this.state.url.map((val) => {
@@ -149,21 +151,21 @@ class Newproduct extends Component {
           </div>
           <div className="textBox p-4 my-3 m-5  commodity shadow-sm">
             <div className="d-flex justify-content-between">
-              <span className="fs-5">商品名稱</span>
+              <span className="fs-5">周邊名稱</span>
               <input
                 type="text"
                 name="peripheralName"
                 className="form-control w-25"
                 required
               />
-              <span className="fs-5">商品分類</span>
+              <span className="fs-5">周邊分類</span>
               <input
                 type="text"
                 name="peripheralClass"
                 className="form-control w-25"
                 required
               />
-              <span className="fs-5">商品品牌</span>
+              <span className="fs-5">周邊品牌</span>
               <input
                 type="text"
                 name="peripheralBrand"
@@ -172,7 +174,7 @@ class Newproduct extends Component {
               />
             </div>
             <hr />
-            <h5>商品敘述</h5>
+            <h5>周邊敘述</h5>
             <input
               type="text"
               name="peripheralText"
@@ -181,7 +183,7 @@ class Newproduct extends Component {
             ></input>
           </div>
           <div className="p-4 my-3 m-5 commodity shadow-sm">
-            <h4>商品規格</h4>
+            <h4>周邊規格</h4>
             <div className="d-flex">
               <input
                 type="text"
@@ -233,9 +235,9 @@ class Newproduct extends Component {
                 />
               </label>
             </div>
-            <button className="btn btn-success mt-3" onClick={this.button}>
+            <div className="btn btn-success mt-3" onClick={this.button}>
               點擊新增
-            </button>
+            </div>
           </div>
         </form>
         <br />

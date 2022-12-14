@@ -3,7 +3,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import { Link } from "react-router-dom";
 class Forum extends Component {
-  state = { data: [] };
+  state = { data: [], search: { search: "" } };
   async componentDidMount() {
     let result = await axios.get("http://localhost:4000/back/forum");
     this.setState({ data: result.data });
@@ -35,6 +35,14 @@ class Forum extends Component {
       }
     }
   };
+  search = async () => {
+    let result = await axios.post(
+      `http://localhost:4000/back/forumSearch`,
+      this.state.search
+    );
+
+    this.setState({ data: result.data });
+  };
   render() {
     return (
       <div className="col-10 offset-2 bg-light text-center vh-100">
@@ -44,7 +52,9 @@ class Forum extends Component {
             type="text"
             className="w-50 p-2 searchInput"
             placeholder="請輸入論壇名稱"
-            onChange={(e) => {}}
+            onChange={(e) => {
+              this.setState({ search: { search: e.target.value } });
+            }}
           />
           <button className="m-2 btn btn-success fs-5" onClick={this.search}>
             搜尋

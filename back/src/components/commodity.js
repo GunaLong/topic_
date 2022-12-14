@@ -28,8 +28,12 @@ class Commodity extends Component {
     });
     if (flag) {
       await axios.delete(`http://localhost:4000/back/alldelete${pid}`);
-      alert("刪除成功");
-      window.location.reload();
+      let flag1 = await swal("刪除成功", "", "success", {
+        buttons: "確定",
+      });
+      if (flag1) {
+        window.location.reload();
+      }
     }
   };
 

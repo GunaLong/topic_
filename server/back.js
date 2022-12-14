@@ -100,8 +100,8 @@ app.post("/commodityImg:id", upload.array("addFile", 10), (req, res, next) => {
   });
   for (let i = 0; i < req.files.length; i++) {
     db.conn(
-      "INSERT INTO `peripheralinfopic` (`peripheralId`, `peripheralPhotoGroup`, `peripheralDesc`) VALUES (?, ?, ?)",
-      [req.params.id, req.files[i].path, "戰鬥畫面"],
+      "INSERT INTO `peripheralinfopic` (`peripheralId`, `peripheralPhotoGroup` ) VALUES (?, ?)",
+      [req.params.id, req.files[i].path],
       (rowss) => {}
     );
   }
@@ -376,6 +376,18 @@ app.post("/gameSearch", (req, res) => {
     }
   );
 });
+// 遊戲刪除
+app.delete("/gameAllDelete:id", (req, res) => {
+  db.conn("DELETE FROM gameinfo WHERE gameId=?", [req.params.id], (rows) => {});
+  db.conn(
+    "DELETE FROM gameinfopictext WHERE gameId=?",
+    [req.params.id],
+    (rows) => {}
+  );
+  db.conn("DELETE FROM gameinfopic WHERE gameId=?", [req.params.id], (rows) => {
+    res.send("ok");
+  });
+});
 //論壇資料
 app.get("/forum", (req, res) => {
   db.conn(
@@ -424,7 +436,7 @@ app.get("/forumedit:id", (req, res) => {
     }
   );
 });
-// 更新論談
+// 更新論壇
 app.put("/forumUpdata:id", (req, res) => {
   db.conn(
     "UPDATE `disc` SET `DiscName` = ?, `uid` = ? WHERE `disc`.`DiscNum` = ?;",
@@ -434,6 +446,7 @@ app.put("/forumUpdata:id", (req, res) => {
     }
   );
 });
+// 論壇圖片更新
 app.put("/forumImg:id", upload.array("addFile", 10), (req, res) => {
   req.files[0].path = `http://localhost:4000/img/${req.files[0].originalname}`;
   db.conn(
@@ -444,5 +457,15 @@ app.put("/forumImg:id", upload.array("addFile", 10), (req, res) => {
     }
   );
 });
-
+//論壇搜尋
+app.post("/forumSearch", (req, res) => {
+  console.log(req.body);
+  db.conn(
+    `SELECT member.nickname,member.mail,disc.DiscNum,discpic.DiscPic,disc.DiscHot,disc.DiscName FROM member JOIN disc on member.uid = disc.uid JOIN discpic on disc.DiscNum = discpic.DiscNum WHERE  DiscName LIKE  '%${req.body.search}%'`,
+    [],
+    (rows) => {
+      res.send(rows);
+    }
+  );
+});
 module.exports = app;

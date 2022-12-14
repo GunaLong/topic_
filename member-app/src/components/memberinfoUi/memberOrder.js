@@ -33,7 +33,7 @@ class Order extends Component {
                     <img
                       className="w-100"
                       alt="商品圖"
-                      src="https://dummyimage.com/600x400/4f314f/303ac9"
+                      src={val.gamePhoto}
                     ></img>
                   </div>
                   <div className="col-10 ">
@@ -91,7 +91,7 @@ class Order extends Component {
                         <img
                           alt="詳細商品圖"
                           className="w-100"
-                          src="https://dummyimage.com/600x400/4f314f/303ac9"
+                          src={val.gamePhoto}
                         ></img>
                       </div>
                       <div className="col-9">
@@ -104,29 +104,6 @@ class Order extends Component {
                           <span className="float-end">${val.gamePrice}</span>
                         </div>
                       </div>
-
-                      {/* <table className="table bg-dark text-center fs-5 rounded-2">
-                    <thead>
-                      <tr className="fs-5">
-                        <th style={{ width: "200px" }}>商品名稱</th>
-                        <th>商品售價</th>
-                        <th>商品數量</th>
-                        <th>付款方式</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.state.orderData.map((val, i) => {
-                        return (
-                          <tr key={i}>
-                            <td>{val.gameName || []}</td>
-                            <td>{val.gamePrice || []}</td>
-                            <td>{val.gameCount || []}</td>
-                            <td>貨到付款</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table> */}
                     </div>
                   );
                 })}

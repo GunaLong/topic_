@@ -9,9 +9,10 @@ class Orderformat extends Component {
 
     this.setState({ data: result.data });
   }
-  getformat = (price, count) => {
+  getformat = (price, count, photo) => {
     // this.state.format = [price, count];
-    this.setState({ format: [price, count] });
+    console.log(photo);
+    this.setState({ format: [price, count, photo] });
   };
   render() {
     return (
@@ -19,7 +20,7 @@ class Orderformat extends Component {
         <div style={{ height: "80px" }} className="col-1 ">
           <img
             className="w-100 rounded-2 h-100"
-            src={this.props.img}
+            src={this.state.format[2] || "../img/check-list.png"}
             alt="訂單照片"
           ></img>
         </div>
@@ -32,7 +33,7 @@ class Orderformat extends Component {
                 tabIndex="1"
                 key={Math.random()}
                 onClick={() => {
-                  this.getformat(val.gamePrice, val.gameCount);
+                  this.getformat(val.gamePrice, val.gameCount, val.gamePhoto);
                 }}
               >
                 <span>{val.gameName}</span>
