@@ -5,13 +5,15 @@ import swal from "sweetalert";
 class Nav extends Component {
   state = { data: [{}] };
   async componentDidMount() {
-    let result = await axios.get("http://localhost:4000/member/memberinfo", {
-      headers: authHeader(),
-    });
+    const user = localStorage.getItem("token");
+    if (user) {
+      let result = await axios.get("http://localhost:4000/member/memberinfo", {
+        headers: authHeader(),
+      });
 
-    if (result) {
-      this.state.data = result.data[0];
-      this.setState({});
+      if (result) {
+        this.setState({ data: result.data[0] });
+      }
     }
   }
   logout = async () => {
@@ -42,7 +44,7 @@ class Nav extends Component {
   DropDonw = () => {
     var state = document.getElementById("InfoBar").style.display;
     console.log(state);
-    if (state == "none") {
+    if (state === "none") {
       return (document.getElementById("InfoBar").style.display = "block");
     } else {
       return (document.getElementById("InfoBar").style.display = "none");
@@ -77,22 +79,22 @@ class Nav extends Component {
 
                 <li className="col-md downinfo">
                   <img src="../img/shopping-cart.png" alt="cart" />
-                  <a href="#">購物車</a>
+                  <a href="/cart">購物車</a>
                 </li>
                 <li className="col-md downinfo">
                   <img src="../img/member.jpg" alt="" />
-                  <a href="#">會員中心</a>
+                  <a href="/memberinfo">會員中心</a>
                 </li>
 
                 <li className="col-md downinfo">
                   <img src="../img/shopping-cart.png" alt="" />
-                  <a href="#">登出</a>
+                  <a href="/cart">登出</a>
                 </li>
               </ul>
             </div>
             {this.state.data.mail ? (
               <div className="shoppingcart col-1 ">
-                <a href="#">
+                <a href="/cart">
                   <img src="../img/shopping-cart.png" alt="cart" />
                 </a>
                 <div
@@ -109,7 +111,9 @@ class Nav extends Component {
             ) : (
               <div className="col-1 shoppingcart justify-content-end">
                 <div>
-                  <button className="btn btn-success">登入</button>
+                  <a href="/">
+                    <button className="btn btn-success">登入</button>
+                  </a>
                 </div>
               </div>
             )}
@@ -118,7 +122,7 @@ class Nav extends Component {
           <div className="dropdown col-11">
             <ul id="InfoBar" className="row">
               <li className="col-12 ">
-                <a href="#" className="link">
+                <a href="/memberinfo" className="link">
                   會員中心
                 </a>
               </li>

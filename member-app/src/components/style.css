@@ -134,3 +134,21 @@ body::-webkit-scrollbar {
 .comSpan span {
   color: rgb(171, 166, 166);
 }
+/* 購物車 */
+.listcolor {
+  color: #000;
+}
+.cartStyle {
+  border: 2px solid rgb(160, 155, 155);
+
+  border-radius: 5px;
+}
+.buttomStyle {
+  width: 20px;
+  background-color: rgba(213, 211, 211, 0.7);
+  border: none;
+  color: #000;
+}
+.buttomStyle:hover {
+  background-color: rgba(213, 211, 211, 1);
+}

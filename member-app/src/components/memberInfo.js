@@ -107,21 +107,6 @@ class MemberInfo extends Component {
               </Routes>
             </div>
           </div>
-
-          {/* <div className="tab-content" id="nav-tabContent">
-            <div className="tab-pane fade show active" id="home">
-              {<MemberEdit data={this.state.data} />}
-            </div>
-            <div className="tab-pane fade" id="order">
-              {<Order />}
-            </div>
-            <div className="tab-pane fade" id="game">
-              game
-            </div>
-            <div className="tab-pane fade" id="review">
-              review
-            </div>
-          </div> */}
         </div>
       </>
     );

@@ -2,6 +2,7 @@ const express = require("express");
 const app = express.Router();
 const db = require("./db");
 const multer = require("multer");
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/img");
@@ -467,5 +468,11 @@ app.post("/forumSearch", (req, res) => {
       res.send(rows);
     }
   );
+});
+// 購物車清除
+app.delete("/cartdelete:id", (req, res) => {
+  db.conn(`DELETE FROM shopcart WHERE gameId=?`, [req.params.id], (rows) => {
+    res.send("ok");
+  });
 });
 module.exports = app;

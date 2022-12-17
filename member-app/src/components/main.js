@@ -51,7 +51,7 @@ class Main extends Component {
       <div style={{ marginTop: "60px" }} className="row ">
         <div className="col-12  d-flex  clo">
           <div className="m-auto bg-dark p-5">
-            <div class="login-form ">
+            <div className="login-form ">
               <form id="form">
                 <div className="login-info">
                   <input

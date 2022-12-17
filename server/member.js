@@ -146,7 +146,7 @@ app.get("/order", ensureToken, (req, res) => {
   selectPersonalArticle(req.token)
     .then((result) => {
       db.conn(
-        "SELECT orderlist.orderid,orderdate,orderPhone,orderAddress,orderDelivery,orderMoney,gamePhoto,gameName,gamePrice,gameCount,mail FROM member JOIN orderlist on member.uid = orderlist.uid  JOIN paylist on orderlist.orderid = paylist.orderid WHERE mail = ? GROUP BY orderlist.orderid",
+        "SELECT orderlist.orderid,orderdate,orderPhone,orderAddress,orderDelivery,orderMoney,gamePhoto,gameName,gamePrice,gameCount,member.mail FROM member JOIN orderlist on member.mail = orderlist.mail  JOIN paylist on orderlist.orderid = paylist.orderid WHERE member.mail = ? GROUP BY orderlist.orderid;",
         [result],
         (rows) => {
           res.send(rows);
@@ -160,7 +160,7 @@ app.get("/order", ensureToken, (req, res) => {
 // 訂單詳細資料;
 app.get("/data:orderid", (req, res) => {
   db.conn(
-    "SELECT orderlist.orderid,orderdate,orderPhone,orderAddress,orderDelivery,orderMoney,gamePhoto,gameName,gamePrice,gameCount FROM member JOIN orderlist on member.uid = orderlist.uid  JOIN paylist on orderlist.orderid = paylist.orderid WHERE  orderlist.orderid = ?;",
+    "SELECT orderlist.orderid,orderdate,orderPhone,orderAddress,orderDelivery,orderMoney,gamePhoto,gameName,gamePrice,gameCount,member.mail FROM member JOIN orderlist on member.mail = orderlist.mail  JOIN paylist on orderlist.orderid = paylist.orderid WHERE  orderlist.orderid =?;",
     [req.params.orderid],
     (rows) => {
       res.send(rows);
@@ -241,5 +241,57 @@ app.get("/comment", ensureToken, (req, res) => {
       return res.status(401).send(err);
     }); // 失敗回傳錯誤訊息
 });
-
+// 購物車資訊
+app.get("/cart", ensureToken, (req, res) => {
+  selectPersonalArticle(req.token).then((result) => {
+    db.conn("SELECT * FROM `shopcart` WHERE email =?", [result], (rows) => {
+      res.send(rows);
+    });
+  });
+});
+// 送出訂單
+app.post("/orderget:id", (req, res) => {
+  db.conn(
+    'INSERT INTO `orderlist` (`orderid`,  `orderName`, `orderPhone`, `orderAddress`, `orderPayment`, `orderDelivery`, `orderMoney`, `mail`) VALUES (?, ?, ?, ?, "貨到付款","宅配",?,?)',
+    [
+      req.params.id,
+      req.body.orderName,
+      req.body.orderPhone,
+      req.body.orderAddress,
+      req.body.tltal,
+      req.body.email,
+    ],
+    (rows) => {
+      res.send("ok");
+    }
+  );
+});
+app.post("/orderformat:id", (req, res) => {
+  for (let i = 0; i < req.body.length; i++) {
+    db.conn(
+      "INSERT INTO `paylist` (`orderid`, `gamePhoto`, `gameName`, `gamePrice`, `gameCount`) VALUES (?, ?, ?, ?, ?)",
+      [
+        req.params.id,
+        req.body[i].gamePhoto,
+        req.body[i].gameName,
+        req.body[i].gamePrice,
+        req.body[i].count,
+      ],
+      (rows) => {}
+    );
+  }
+  res.send("ok");
+});
+// 購物車清除
+app.post("/orderdelete", (req, res) => {
+  console.log(req.body);
+  for (let i = 0; i < req.body.length; i++) {
+    db.conn(
+      `DELETE FROM shopcart WHERE gameId=?`,
+      [req.body[i].gameId],
+      (rows) => {}
+    );
+  }
+  res.send("ok");
+});
 module.exports = app;

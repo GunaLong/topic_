@@ -6,6 +6,7 @@ import Nav from "./components/nav";
 import Main from "./components/main.js";
 import Register from "./components/register";
 import MemberInfo from "./components/memberInfo";
+import Cart from "./components/cart";
 function App() {
   return (
     <>
@@ -13,6 +14,7 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/" element={<Main />}></Route>
+          <Route path="/cart" element={<Cart />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/memberinfo/*" element={<MemberInfo />}></Route>
         </Routes>

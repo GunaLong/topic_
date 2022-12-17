@@ -35,7 +35,6 @@ class MemberEdit extends Component {
           headers: authHeader(),
         })
         .then(async (res) => {
-          console.log(res);
           let flag = await swal("更改成功", "", "success", {
             buttons: "確定",
           });
