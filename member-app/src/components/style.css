@@ -152,3 +152,6 @@ body::-webkit-scrollbar {
 .buttomStyle:hover {
   background-color: rgba(213, 211, 211, 1);
 }
+.cartTop {
+  background-color: rgb(28, 72, 154);
+}

@@ -244,9 +244,13 @@ app.get("/comment", ensureToken, (req, res) => {
 // 購物車資訊
 app.get("/cart", ensureToken, (req, res) => {
   selectPersonalArticle(req.token).then((result) => {
-    db.conn("SELECT * FROM `shopcart` WHERE email =?", [result], (rows) => {
-      res.send(rows);
-    });
+    db.conn(
+      "SELECT * FROM `cart` JOIN peripheralformat on cart.pid = peripheralformat.pid WHERE mail=?",
+      [result],
+      (rows) => {
+        res.send(rows);
+      }
+    );
   });
 });
 // 送出訂單
@@ -258,7 +262,7 @@ app.post("/orderget:id", (req, res) => {
       req.body.orderName,
       req.body.orderPhone,
       req.body.orderAddress,
-      req.body.tltal,
+      req.body.total,
       req.body.email,
     ],
     (rows) => {
@@ -269,13 +273,15 @@ app.post("/orderget:id", (req, res) => {
 app.post("/orderformat:id", (req, res) => {
   for (let i = 0; i < req.body.length; i++) {
     db.conn(
-      "INSERT INTO `paylist` (`orderid`, `gamePhoto`, `gameName`, `gamePrice`, `gameCount`) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO `paylist` (`orderid`, `gamePhoto`, `gameName`, `gamePrice`, `gameCount`,product,product2) VALUES (?, ?, ?, ?, ?,?,?)",
       [
         req.params.id,
-        req.body[i].gamePhoto,
-        req.body[i].gameName,
-        req.body[i].gamePrice,
+        req.body[i].peripheralPhoto,
+        req.body[i].peripheralName,
+        req.body[i].peripheralPrice,
         req.body[i].count,
+        req.body[i].peripheralProduct,
+        req.body[i].peripheralProduct2,
       ],
       (rows) => {}
     );
@@ -284,14 +290,20 @@ app.post("/orderformat:id", (req, res) => {
 });
 // 購物車清除
 app.post("/orderdelete", (req, res) => {
-  console.log(req.body);
   for (let i = 0; i < req.body.length; i++) {
     db.conn(
-      `DELETE FROM shopcart WHERE gameId=?`,
-      [req.body[i].gameId],
+      `DELETE FROM cart WHERE peripheralId=?`,
+      [req.body[i].peripheralId],
       (rows) => {}
     );
   }
   res.send("ok");
+});
+app.delete("/singleDelete:id", (req, res) => {
+  db.conn(
+    "DELETE FROM cart WHERE `cart`.`peripheralId` = ?",
+    [req.params.id],
+    (rows) => {}
+  );
 });
 module.exports = app;
